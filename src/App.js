@@ -1,70 +1,44 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import logo from './logo.svg';
-import increment, { incrementAsync, decrement } from './actions';
-import Counter from './Counter';
+import Layout, { Content, Header, Footer } from 'antd/lib/layout/layout';
+import WeatherList from './List'
+import Menu from './Menu'
+import Chart from './Chart'
+import 'antd/dist/antd.css'
+import { getWeather } from './actions';
+
 import './App.css';
 
 function App() {
+
   const dispatch = useDispatch();
-  const counter = useSelector(state => state.count)
+  const current = useSelector(state => state.MainReducer.current)
+
+  let interval
+
+  useEffect(() => {
+    if (!interval) {
+      console.log("ok")
+      interval = setInterval(() => { dispatch(getWeather()) }, 1000)
+    }
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, []);
+
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter
-          value={counter}
-          onIncrement={() => dispatch(increment())}
-          onDecrement={() => dispatch(decrement())}
-          onIncrementAsync={() => dispatch(incrementAsync())}
-        />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <div>
-          Learn
-          {" "}
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-          React,
-          </a>
-          {" "}
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-          Redux,
-          </a>
-          {" "}
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-          React Redux
-          </a>
-          {" "}
-          and
-          {" "}
-          <a
-            className="App-link"
-            href="https://redux-saga.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-          Redux Saga
-          </a>
-        </div>
-      </header>
-    </div>
+    <Layout>
+      <Menu />
+      <div className='site-layout-content' >
+        {current === 'chart' && <Chart />}
+        {current === 'table' && <WeatherList />}
+      </div>
+      <Footer style={{ textAlign: 'center' }}>
+        Copyright @2022
+      </Footer>
+    </Layout>
   );
 }
 

@@ -1,17 +1,17 @@
-import { all, call, delay, put, takeEvery } from 'redux-saga/effects'
+import { all, call, delay, put, takeEvery, takeLatest } from 'redux-saga/effects'
 
-export function* incrementAsync() {
-  yield delay(1000)
-  yield put({type: 'INCREMENT'})
+export function* fetchWeather(){
+  const json = yield fetch('https://api.openweathermap.org/data/2.5/weather?q=Matera&units=metric&appid=ba3801334c7ca3c0fa141099878a3c50&lang=it')
+  .then(response => response.json())
+  yield put({type: 'WEATHER_RECEIVED', json: json})
 }
 
-export function* watchIncrementAsync() {
-  yield takeEvery('INCREMENT_ASYNC', incrementAsync)
+export function* watchFetchWeather() {
+  yield takeLatest('GET_WEATHER', fetchWeather)
 }
 
-// single entry point to start all Sagas at once
 export default function* rootSaga() {
   yield all([
-    call(watchIncrementAsync),
+    call(watchFetchWeather),
   ])
 }

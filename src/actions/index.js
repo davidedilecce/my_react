@@ -1,15 +1,12 @@
 import types from './types';
 
-const increment = () => ({
-  type: types.INCREMENT,
-});
+export const getWeather = () => ({
+  type: types.GET_WEATHER,
+})
 
-export const decrement = () => ({
-  type: types.DECREMENT,
-});
+export const setCurrent = e => ({
+  type: types.HANDLE_CLICK,
+  payload: e.key
+})
 
-export const incrementAsync = error => ({
-  type: types.INCREMENT_ASYNC,
-});
-
-export default increment;
+export default getWeather;

@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Layout, { Content, Header, Footer } from 'antd/lib/layout/layout';
-import WeatherList from './List'
+import WeatherList from './list/List'
 import Menu from './Menu'
-import Chart from './Chart'
+import Chart from './chart/Chart'
+import CityWeather from './cityWeather/CityWeather';
 import 'antd/dist/antd.css'
 import { getWeather } from './actions';
+import './index.css'
 
 import './App.css';
 
@@ -18,8 +20,7 @@ function App() {
 
   useEffect(() => {
     if (!interval) {
-      console.log("ok")
-      interval = setInterval(() => { dispatch(getWeather()) }, 1000)
+      interval = setInterval(() => { dispatch(getWeather()) }, 10000)
     }
 
     return () => {
@@ -34,6 +35,7 @@ function App() {
       <div className='site-layout-content' >
         {current === 'chart' && <Chart />}
         {current === 'table' && <WeatherList />}
+        {current === 'city' && <CityWeather />}
       </div>
       <Footer style={{ textAlign: 'center' }}>
         Copyright @2022
@@ -41,5 +43,5 @@ function App() {
     </Layout>
   );
 }
-
+ 
 export default App;

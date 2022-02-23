@@ -2,10 +2,17 @@ import { combineReducers } from 'redux';
 import moment from 'moment';
 
 const initialState = {
-  loading: false,
+  loadingWeather: false,
+  loadingForecast: false,
   data: [],
   current: 'table',
-  time: ''
+  time: '',
+  citySearched: '',
+  visible: false,
+  forecast: [],
+  zoom: 7,
+  map: null,
+  coord: {lat: 0,lon: 0}
 };
 
 function MainReducer(state = initialState, action) {
@@ -13,12 +20,12 @@ function MainReducer(state = initialState, action) {
     case 'GET_WEATHER':
       return {
         ...state,
-        loading: true
+        loadingWeather: true
       }
     case 'WEATHER_RECEIVED':
       let newData = state.data.slice();
       let time = moment.unix(action.json.dt).format("HH:mm:ss")
-      if (state.time === '' || state.time != time) {
+      if (state.time === '' || state.time !== time) {
         newData.push({
           key: Date.now(),
           name: action.json.name,
@@ -33,13 +40,43 @@ function MainReducer(state = initialState, action) {
       return {
         ...state,
         data: newData,
-        loading: false,
+        loadingWeather: false,
         time: time
+      }
+    case 'FORECAST_RECEIVED':
+      action.json.list.map(list => {
+        list.time = 3
+      })
+      return {
+        ...state,
+        forecast: action.json.list,
+        coord: action.json.city.coord,
+        loadingForecast: false,
+        visible: true
+      }
+    case 'FORECAST_ERROR':
+      return {
+        ...state,
+        error: true,
+        visible: false,
+        loadingForecast:false,
       }
     case 'HANDLE_CLICK':
       return {
         ...state,
         current: action.payload,
+      }
+    case 'SET_SEARCH':
+      return {
+        ...state,
+        citySearched: action.payload,
+        loadingForecast: true,
+        error: false
+      }
+    case 'SET_VISIBLE':
+      return {
+        ...state,
+        visible: true
       }
     default:
       return state;

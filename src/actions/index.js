@@ -9,4 +9,13 @@ export const setCurrent = e => ({
   payload: e.key
 })
 
+export const setSearch = value => ({
+  type: types.SET_SEARCH,
+  payload: value
+})
+
+export const setVisible = () => ({
+  type: types.SET_VISIBLE
+})
+
 export default getWeather;

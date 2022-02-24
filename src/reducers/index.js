@@ -1,21 +1,19 @@
 import { combineReducers } from 'redux';
 import moment from 'moment';
+import cityWeatherReducer from './cityWeatherReducer';
+import 'moment/locale/it'
+moment.locale('it')
 
 const initialState = {
   loadingWeather: false,
-  loadingForecast: false,
   data: [],
   current: 'table',
-  time: '',
-  citySearched: '',
   visible: false,
-  forecast: [],
-  zoom: 7,
-  map: null,
-  coord: {lat: 0,lon: 0}
+  time: '',
 };
 
-function MainReducer(state = initialState, action) {
+
+function listReducer(state = initialState, action) {
   switch (action.type) {
     case 'GET_WEATHER':
       return {
@@ -36,55 +34,30 @@ function MainReducer(state = initialState, action) {
           time: time
         })
       }
-
       return {
         ...state,
         data: newData,
         loadingWeather: false,
         time: time
       }
-    case 'FORECAST_RECEIVED':
-      action.json.list.map(list => {
-        list.time = 3
-      })
-      return {
-        ...state,
-        forecast: action.json.list,
-        coord: action.json.city.coord,
-        loadingForecast: false,
-        visible: true
-      }
-    case 'FORECAST_ERROR':
-      return {
-        ...state,
-        error: true,
-        visible: false,
-        loadingForecast:false,
-      }
     case 'HANDLE_CLICK':
       return {
         ...state,
         current: action.payload,
-      }
-    case 'SET_SEARCH':
-      return {
-        ...state,
-        citySearched: action.payload,
-        loadingForecast: true,
-        error: false
       }
     case 'SET_VISIBLE':
       return {
         ...state,
         visible: true
       }
+    
     default:
       return state;
   }
 }
 
 const rootReducer = combineReducers({
-  MainReducer
-});
+  listReducer, cityWeatherReducer
+})
 
 export default rootReducer;

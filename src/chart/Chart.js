@@ -7,7 +7,7 @@ import '../index.css'
 
 const Chart = () => {
 
-    const data = useSelector(state => state.MainReducer.data)
+    const data = useSelector(state => state.listReducer.data)
 
     return (
         <Content style={{ padding: '0 50px', marginTop: 64 }} className="content" >

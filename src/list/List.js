@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { Content } from 'antd/lib/layout/layout';
 
 const WeatherList = () => {
-    const data = useSelector(state => state.MainReducer.data)
+    const data = useSelector(state => state.listReducer.data)
     return (
         <Content style={{ padding: '0 50px', marginTop: 64 }} className="content" >
             <div className='site-layout-content' >

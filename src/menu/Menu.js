@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Layout, Menu as MenuAntd } from 'antd';
-import { setCurrent } from './actions';
+import { setCurrent } from '../actions';
 const { Header } = Layout;
 
 
@@ -9,7 +9,7 @@ const { Header } = Layout;
 
 const Menu = () => {
     const dispatch = useDispatch();
-    const current = useSelector(state => state.MainReducer.current)
+    const current = useSelector(state => state.listReducer.current)
 
     const handleClick = e => {
         dispatch(setCurrent(e))

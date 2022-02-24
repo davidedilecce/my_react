@@ -18,4 +18,9 @@ export const setVisible = () => ({
   type: types.SET_VISIBLE
 })
 
+export const setMap = map => ({
+  type: types.SET_MAP,
+  payload: map
+})
+
 export default getWeather;

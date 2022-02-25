@@ -35,7 +35,8 @@ export default function cityWeatherReducer(state = initialState, action) {
                 forecast: action.json.list,
                 coord: action.json.city.coord,
                 loadingForecast: false,
-                visible: true
+                visible: true,
+                citySearched: action.json.city.name
             }
         case 'FORECAST_ERROR':
             return {
@@ -43,6 +44,21 @@ export default function cityWeatherReducer(state = initialState, action) {
                 error: true,
                 visible: false,
                 loadingForecast: false,
+            }
+        case 'LOADING_FORECAST':
+            return{
+                ...state,
+                loadingForecast: true
+            }
+        case 'SET_CHANGE':
+            return{
+                ...state,
+                searchedValue: action.payload
+            }
+        case 'GET_CURRENT_POSITION_FORECAST':
+            return{
+                ...state,
+                searchedValue: 'Posizione corrente'
             }
         default:
             return state;

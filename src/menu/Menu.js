@@ -16,7 +16,7 @@ const Menu = () => {
     }
 
     return (
-        <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+        <Header style={{ position: 'fixed', zIndex: 10, width: '100%' }}>
             <MenuAntd onClick={handleClick} selectedKeys={current} mode="horizontal" theme='dark'>
                 <MenuAntd.Item key="table" >Tabella </MenuAntd.Item>
                 <MenuAntd.Item key="chart" >Grafico </MenuAntd.Item>

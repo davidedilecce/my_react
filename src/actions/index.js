@@ -23,4 +23,18 @@ export const setMap = map => ({
   payload: map
 })
 
+export const getCurrentPositionForecast = coord => ({
+  type: types.GET_CURRENT_POSITION_FORECAST,
+  payload: coord
+})
+
+export const loadingForecast = () => ({
+  type: types.LOADING_FORECAST
+})
+
+export const setChange = value => ({
+  type: types.SET_CHANGE,
+  payload: value
+})
+
 export default getWeather;

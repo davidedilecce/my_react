@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
-import { Row, Col, Divider, Card, Input, Spin, Alert, Space, message } from 'antd';
+import { Row, Col, Divider, Card, Input, Spin, Alert, Cascader, message, Space } from 'antd';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet'
 import { useSelector, useDispatch } from 'react-redux';
-import { setSearch, setVisible, setMap, getCurrentPositionForecast, loadingForecast, setChange } from '../actions';
+import { setSearch, setVisible, setMap, getCurrentPositionForecast, loadingForecast, setChange, setDaySelected} from '../actions';
 import { Content } from 'antd/lib/layout/layout';
 import capitalize from '../util/util.js'
 import '../index.css'
+import moment from 'moment';
+moment.locale('it')
 
 const { Search } = Input;
 
@@ -31,6 +33,10 @@ const CityWeather = () => {
         dispatch(setMap(map))
     }
 
+    const daySelected = value => {
+        dispatch(setDaySelected(value[0]))
+    }
+
     useEffect(() => {
         dispatch(loadingForecast())
         navigator.geolocation.getCurrentPosition(position => { dispatch(getCurrentPositionForecast(position.coords)) })
@@ -43,15 +49,19 @@ const CityWeather = () => {
         <>
             <Content style={{ padding: '0', marginTop: 64 }} className="content" >
                 <Row gutter={[0, 24]}>
-                    <Col span={9} md={{ span: 8 }}>
-
-                    </Col>
-                    <Col span={6} md={{ span: 8 }}>
+                    <Col span={18} offset={3} sm={{ span: 10, offset: 7 }} md={{ span: 8, offset: 8 }}>
                         <div>
                             <Search size="large" placeholder="Inserisci Città" value={state.searchedValue} onSearch={onSearch} onChange={onChange} disabled={state.loadingForecast} style={{ width: "100%" }} />
                         </div>
                     </Col>
-                    <Col span={9} md={{ span: 8 }}>
+                    <Col span={6} offset={1}>
+                        <Cascader
+                            options={state.days} 
+                            className='cascader' 
+                            defaultValue={[moment().format('dddd DD/MM')]} 
+                            size='large' placeholder='Seleziona il Giorno'
+                            onChange={daySelected}>
+                        </Cascader>
                     </Col>
                 </Row>
 
@@ -76,9 +86,11 @@ const CityWeather = () => {
                         </Row>
                         <Divider orientation="left">Previsioni 24h</Divider>
                         <Row>
-                            <Col span={12}>
+                            <Col xl={{ span: 12 }} sm={{ span: 24 }}>
                                 <Row gutter={[48, 24]}>
                                     {state.forecast.map(forecast => {
+                                        console.log(moment.unix(forecast.dt).format("dddd"))
+                                        if(state.daySelected === capitalize(moment.unix(forecast.dt).format("dddd")))
                                         return (
                                             <Col span={24} key={forecast.dt}>
                                                 <Card hoverable title={forecast.time} style={{ width: "auto", margin: "auto" }}>
@@ -112,7 +124,7 @@ const CityWeather = () => {
                                     })}
                                 </Row>
                             </Col>
-                            <Col span={10} offset={1}>
+                            <Col xl={{ span: 10, offset: 1 }} sm={{ span: 24 }}>
                                 <MapContainer
                                     center={state.coord}
                                     zoom={state.zoom}

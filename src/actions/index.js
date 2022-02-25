@@ -37,4 +37,9 @@ export const setChange = value => ({
   payload: value
 })
 
+export const setDaySelected = value => ({
+  type: types.SET_DAY_SELECTED,
+  payload: value
+})
+
 export default getWeather;

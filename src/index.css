@@ -22,12 +22,13 @@ body,
 }
 
 .imgSize{
-  height: 60px;
-  width: 60px;
+  height: 40px;
+  width: 40px;
 }
 
 .leaflet-container{
-  height: 800px;
+  height: 0px;
+  padding-bottom: 100%;
   width: 100%;
   z-index: 0;
 }
@@ -41,5 +42,9 @@ body,
 .text{
   text-align: center;
   line-height: 60px;
-  font-size: 16px;
+  font-size: 14px;
+}
+
+.cascader{
+  width: 100%;
 }

@@ -7,7 +7,7 @@ export function* fetchWeather() {
 }
 
 export function* fetchForecast(action) {
-  const json = yield fetch('https://api.openweathermap.org/data/2.5/forecast?q=' + action.payload + '&units=metric&appid=ba3801334c7ca3c0fa141099878a3c50&lang=it&cnt=8')
+  const json = yield fetch('https://api.openweathermap.org/data/2.5/forecast?q=' + action.payload + '&units=metric&appid=ba3801334c7ca3c0fa141099878a3c50&lang=it&cnt=40')
     .then(response => response.json())
 
   if (json.cod !== '200') {
@@ -20,7 +20,7 @@ export function* fetchForecast(action) {
 }
 
 export function* fetchCurrentPositionForecast(action) {
-  const json = yield fetch('https://api.openweathermap.org/data/2.5/forecast?lat=' + action.payload.latitude + '&lon=' + action.payload.longitude + '&units=metric&appid=ba3801334c7ca3c0fa141099878a3c50&lang=it&cnt=8')
+  const json = yield fetch('https://api.openweathermap.org/data/2.5/forecast?lat=' + action.payload.latitude + '&lon=' + action.payload.longitude + '&units=metric&appid=ba3801334c7ca3c0fa141099878a3c50&lang=it&cnt=40')
     .then(response => response.json())
 
   if (json.cod !== '200') {

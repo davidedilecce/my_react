@@ -10,9 +10,18 @@ const initialState = {
     coord: { lat: 0, lon: 0 },
     citySearched: '',
     loadingForecast: false,
+    daySelected: capitalize(moment().format('dddd')),
+    days :[
+        {value: capitalize(moment().format('dddd')),label: capitalize(moment().format('dddd DD/MM'))},
+        {value: capitalize(moment().add(1, 'days').format('dddd')), label: capitalize(moment().add(1, 'days').format('dddd DD/MM'))},
+        {value: capitalize(moment().add(2, 'days').format('dddd')), label: capitalize(moment().add(2, 'days').format('dddd DD/MM'))},        
+        {value: capitalize(moment().add(3, 'days').format('dddd')), label: capitalize(moment().add(3, 'days').format('dddd DD/MM'))},
+        {value: capitalize(moment().add(4, 'days').format('dddd')), label: capitalize(moment().add(4, 'days').format('dddd DD/MM'))}
+    ]
 };
 
 export default function cityWeatherReducer(state = initialState, action) {
+
     switch (action.type) {
         case 'SET_MAP':
             return {
@@ -36,7 +45,7 @@ export default function cityWeatherReducer(state = initialState, action) {
                 coord: action.json.city.coord,
                 loadingForecast: false,
                 visible: true,
-                citySearched: action.json.city.name
+                citySearched: action.json.city.name,
             }
         case 'FORECAST_ERROR':
             return {
@@ -59,6 +68,11 @@ export default function cityWeatherReducer(state = initialState, action) {
             return{
                 ...state,
                 searchedValue: 'Posizione corrente'
+            }
+        case 'SET_DAY_SELECTED':
+            return{
+                ...state,
+                daySelected: action.payload
             }
         default:
             return state;
